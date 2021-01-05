@@ -1,25 +1,13 @@
-/***************************************************************************
-  This is a library for the CCS811 air
-
-  This sketch reads the sensor
-
-  Designed specifically to work with the Adafruit CCS811 breakout
-  ----> http://www.adafruit.com/products/3566
-
-  These sensors use I2C to communicate. The device's I2C address is 0x5A
-
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit andopen-source hardware by purchasing products
-  from Adafruit!
-
-  Written by Dean Miller for Adafruit Industries.
-  BSD license, all text above must be included in any redistribution
- ***************************************************************************/
-
-#include "Adafruit_CCS811.h"
+//---Libraries----------------------------------------------------------------------
+#include "Adafruit_CCS811.h"       
 
 Adafruit_CCS811 ccs;
+//---Libraries----------------------------------------------------------------------
+const unsigned long IntervalGas = 10000; // dit is ons evenement
+unsigned long previousTimeGas = 0;          // Vorige tijd
 
+
+//---Setup--------------------------------------------------------------------------
 void setup() {
   Serial.begin(9600);
 
@@ -34,18 +22,29 @@ void setup() {
   while(!ccs.available());
 }
 
+//---LOOP--------------------------------------------------------------------------
 void loop() {
-  if(ccs.available()){
-    if(!ccs.readData()){
-      Serial.print("CO2: ");
-      Serial.print(ccs.geteCO2());
-      Serial.print("ppm, TVOC: ");
-      Serial.println(ccs.getTVOC());
+  unsigned long currentTimeGas = millis(); // huidige tijd van millis die constant veranderd
+
+  if(currentTimeGas - previousTimeGas >= IntervalGas {
+    if(ccs.available()){
+      if(!ccs.readData()){
+        Serial.print("CO2: ");
+        Serial.print(ccs.geteCO2());
+        Serial.print("ppm, TVOC: ");
+        Serial.println(ccs.getTVOC());
+        previousTime = currentTimeGas
+      }
+      else{
+        Serial.println("ERROR!");
+        while(1);
     }
-    else{
-      Serial.println("ERROR!");
-      while(1);
-    }
+    
   }
-  delay(500);
+ 
 }
+
+//--------------------------------------------------------------------------------
+//Gemaakt door de groep Luchtkwaliteit
+//Graduaat IoT
+//Klas 1.1
