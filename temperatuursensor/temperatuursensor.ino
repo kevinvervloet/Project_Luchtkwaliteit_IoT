@@ -11,8 +11,8 @@ DHT dht = DHT(DHTPIN, DHTTYPE);
 
 //vairabelen millis die ik gebruik voor de temperatuursensor
 const int meetTijd = 30000;
-unsigned long currentTime3 = 0;
-unsigned long previousTime3 = 0;
+unsigned long currentTime = 0;
+unsigned long previousTime = 0;
 
 
 void setup() {
@@ -25,12 +25,12 @@ void setup() {
 void loop() {
   // de code voor de temperatuursensor
   currentTime3 = millis();
-  if (currentTime3 - previousTime3 > meetTijd) {
+  if (currentTime - previousTime > meetTijd) {
 
 
     printVochtigheid() ;
     printTemperatuur() ;
-    previousTime3 = currentTime3;
+    previousTime = currentTime;
   }
 }
 
