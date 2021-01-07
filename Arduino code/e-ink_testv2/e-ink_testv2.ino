@@ -1,10 +1,22 @@
+/*
+ * dit is het tweede testprogramma 
+ * na het testen van de epaper hadden we door dat we beter ergens anders mee werken
+ */
+
+
+/*---Author information-------------------------------------------------------------
+ * email:johannes.coolen@hotmail.com
+ * Author: Johannes Coolen
+ * Version: V2
+ * Status: aborted
+ */
+ 
+//---Libraries----------------------------------------------------------------------
 #include <GxEPD.h>
 #include <GxFont_GFX.h>
 #include <GxGDE0213B1/GxGDE0213B1.h>      // 2.13" b/w
-
 #include GxEPD_BitmapExamples
 
-// FreeFonts from Adafruit_GFX
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMonoBold18pt7b.h>
@@ -13,8 +25,13 @@
 
 #include <GxIO/GxIO_SPI/GxIO_SPI.h>
 #include <GxIO/GxIO.h>
+
+//---Variabelen----------------------------------------------------------------------
 #define COLORED     0
 #define UNCOLORED   1
+
+
+
 
 // mapping suggestion from Waveshare SPI e-Paper to generic ESP8266
 // BUSY -> GPIO4, RST -> GPIO2, DC -> GPIO0, CS -> GPIO15, CLK -> GPIO14, DIN -> GPIO13, GND -> GND, 3.3V -> 3.3V
