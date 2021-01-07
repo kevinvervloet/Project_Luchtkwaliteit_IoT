@@ -1,6 +1,6 @@
 # Project_Luchtkwaliteit_IoT
 
-## Table of contents
+## Inhoudsopgave
 * [Algemene informatie](#algemene-informatie)
 * [Software](#software)
 
