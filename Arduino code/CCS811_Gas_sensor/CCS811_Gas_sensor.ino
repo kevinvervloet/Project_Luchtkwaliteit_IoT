@@ -1,10 +1,17 @@
+/*---Author information-------------------------------------------------------------
+ * email: kevin.vervloet@student.kdg.be
+ * Author: Air Quality Boys
+ * Version: 1.0
+ * Status: Bezig
+ */
+
 //---Libraries----------------------------------------------------------------------
 #include "Adafruit_CCS811.h"       
 
 Adafruit_CCS811 ccs;
 
-//---Libraries----------------------------------------------------------------------
-const unsigned long IntervalGas = 10000; // dit is ons evenement
+//---variabelen----------------------------------------------------------------------
+const unsigned long IntervalGas = 10000;    // dit is de interval tijd 
 unsigned long previousTimeGas = 0;          // Vorige tijd
 
 
@@ -15,15 +22,15 @@ void setup() {
   Serial.println("CCS811 test");
 
   if(!ccs.begin()){
-    Serial.println("Failed to start sensor! Please check your wiring.");
+    Serial.println("Failed to start sensor! Please check your wiring.");    // Bug controle
     while(1);
   }
 
-  // Wait for the sensor to be ready
-  while(!ccs.available());
+  
+  while(!ccs.available());      // wacht tot de sensor beschikbaar is -> ga dan naar de loop
 }
 
-//---LOOP--------------------------------------------------------------------------
+//---Loop--------------------------------------------------------------------------
 void loop() {
   unsigned long currentTimeGas = millis(); // huidige tijd van millis die constant veranderd
 
@@ -34,7 +41,7 @@ void loop() {
         Serial.print(ccs.geteCO2());
         Serial.print("ppm, TVOC: ");
         Serial.println(ccs.getTVOC());
-        previousTime = currentTimeGas
+        previousTime = currentTimeGas     // Update de waarde van millis
       }
       else{
         Serial.println("ERROR!");
