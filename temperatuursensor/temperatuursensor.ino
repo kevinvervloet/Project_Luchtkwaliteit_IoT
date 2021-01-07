@@ -24,7 +24,7 @@ void setup() {
 
 void loop() {
   // de code voor de temperatuursensor
-  currentTime3 = millis();
+  currentTime = millis();
   if (currentTime - previousTime > meetTijd) {
 
 
