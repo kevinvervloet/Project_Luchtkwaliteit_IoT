@@ -12,4 +12,6 @@ Het is een klein toestel dat CO2 & temperatuur zal meten met een Adafruit Feathe
 ## Software
 Gebruikte software in dit project:
 * Arduino IDE: 1.8.13
-* ...
+* Tinkercad
+* Thingiverse
+* PrusaSlicer: 2.2.0
