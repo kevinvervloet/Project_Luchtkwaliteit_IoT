@@ -1,3 +1,12 @@
+/*---Author information-------------------------------------------------------------
+ * email: sven.devisscher@student.kdg.be  
+ * Author: Sven De Visscher
+ * Version: Version 1.3
+ * Status: Finished
+ */
+//---Libraries----------------------------------------------------------------------
+//DHT sensor library by Adafruit Version 1.4
+//---Variabelen----------------------------------------------------------------------
 //variabelen temperatuursensor
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
@@ -14,14 +23,14 @@ const int meetTijd = 30000;
 unsigned long currentTime = 0;
 unsigned long previousTime = 0;
 
-
+//---Setup--------------------------------------------------------------------------
 void setup() {
  //setup temperatuursensor
  Serial.begin(9600);
  dht.begin();
 
 }
-
+//---Loop---------------------------------------------------------------------------
 void loop() {
   // de code voor de temperatuursensor
   currentTime = millis();
@@ -46,3 +55,4 @@ void printVochtigheid() {
   Serial.print(F("Vochtigheid: "));
   Serial.print(h);
 }
+//----------------------------------------------------------------------------------
