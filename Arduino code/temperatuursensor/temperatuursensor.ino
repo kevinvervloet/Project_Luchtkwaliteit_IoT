@@ -55,4 +55,8 @@ void printVochtigheid() {
   Serial.print(F("Vochtigheid: "));
   Serial.print(h);
 }
+
 //----------------------------------------------------------------------------------
+//Gemaakt door de groep Luchtkwaliteit
+//Graduaat IoT
+//Klas 1.1
