@@ -22,3 +22,6 @@ void loop() {
 }
 
 //----------------------------------------------------------------------------------
+//Gemaakt door de groep Luchtkwaliteit
+//Graduaat IoT
+//Klas 1.1
