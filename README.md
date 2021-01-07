@@ -6,7 +6,7 @@
 
 
 ## Algemene informatie
-Dit project is een project van de KdG Hogeschool met betrekking tot de lessen van Simulate 1.
+Dit project is een project van de KdG Hogeschool van het Graduaat Internet of Things (vak simulate 1).
 Het is een klein toestel dat CO2 & temperatuur zal meten met een Adafruit Feather HUZZAH ESP8266 micro-controller.
 	
 ## Software
