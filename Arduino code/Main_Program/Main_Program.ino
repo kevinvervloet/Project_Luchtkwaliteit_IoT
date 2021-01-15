@@ -5,7 +5,7 @@
    email: raf.vermeylen@student.kdg.be
    email: ruben.vandermeiren@student.kdg.be
    Author: Air Quality Boys
-   Version: 1.1.0
+   Version: 1.1.1
 
 */
 
@@ -24,19 +24,24 @@ const unsigned long IntervalGas = 10000;    // dit is de interval tijd
 unsigned long previousTimeGas = 0;          // Vorige tijd
 #define DHTPIN 12
 #define DHTTYPE DHT11   // DHT 11 
-#define TFT_CS         4    //kies pinnen voor display
+#define TFT_CS         17    //kies pinnen voor display
 #define TFT_RST        16
-#define TFT_DC         5
+#define TFT_DC         1
 #define LED            15
 #define SWITCH         3
 DHT dht = DHT(DHTPIN, DHTTYPE);
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
 
 //---Setup--------------------------------------------------------------------------
-void setup() {
+void setup() {  
   pinMode(LED, OUTPUT);
   pinMode(SWITCH, INPUT);
   dht.begin();
+  delay(1);
+  if(!ccs.begin()){
+    Serial.println("Failed to start sensor! Please check your wiring.");
+    while(1);
+  }
   tft.initR(INITR_BLACKTAB);                //initialiseer display
   tft.fillScreen(ST77XX_BLACK);             //maak het scherm zwart
   tft.setRotation(1);                       // draai het scherm
@@ -44,42 +49,36 @@ void setup() {
   tft.setTextColor(ST77XX_YELLOW);          //zet de tekstkleur op geel
   tft.setTextSize(2);                     //grootte tekst op 2
   tft.println("G.R.E.T.A in the house");  //print tekst
-
-  if (!ccs.begin()) {
-
-    while (1);
-  }
-
-
-  while (!ccs.available());     // wacht tot de sensor beschikbaar is -> ga dan naar de loop
+  // Wait for the sensor to be ready
+  while(!ccs.available());
+  
 }
-
 //---Loop--------------------------------------------------------------------------
 void loop() {
-
-  unsigned long currentTimeGas = millis(); // huidige tijd van millis die constant veranderd
-
+  
+ unsigned long currentTimeGas = millis(); // huidige tijd van millis die constant veranderd
   if (currentTimeGas - previousTimeGas >= IntervalGas) {
-    float t = dht.readTemperature();
+    float t = dht.readTemperature();      //lees temperatuur en vochtigheid
     float h = dht.readHumidity();
-    if (ccs.available()) {
-      if (!ccs.readData()) {
-
-        Serial.print(ccs.geteCO2());
-
-        Serial.println(ccs.getTVOC());
+    if (ccs.available()) {                //lees de co2 waarden uit
+      if (!ccs.readData()) {            
+        tft.fillScreen(ST77XX_BLACK);             //maak het scherm zwart
+    tft.setCursor(0, 0);                      // zet de cursor in het begin
+    tft.setTextColor(ST77XX_YELLOW);          //zet de tekstkleur op geel
+    tft.setTextSize(1);                     //grootte tekst op 1
+    tft.println("CO2 = " + String(ccs.geteCO2())+" ppm"); //print tekst
+    tft.println("T = " + String(t)+ " C");
+    tft.println("h = " + String(h)+ " %");
         previousTimeGas = currentTimeGas;     // Update de waarde van millis
       }
 
     }
-    tft.fillScreen(ST77XX_BLACK);             //maak het scherm zwart
-    tft.setCursor(0, 0);                      // zet de cursor in het begin
-    tft.setTextColor(ST77XX_YELLOW);          //zet de tekstkleur op geel
-    tft.setTextSize(2);                     //grootte tekst op 2
-    tft.println("CO2 = " + ccs.geteCO2()); //print tekst
-    tft.println("TVCO = " + ccs.getTVOC());
-    tft.println("T = " + String(t));
-    tft.println("h = " + String(h));
+    else{
+      
+      while(1);
+    }
+    
+   
     if (ccs.geteCO2() >= 900) {
       digitalWrite(LED, HIGH);
 
@@ -87,15 +86,17 @@ void loop() {
     else {
       digitalWrite(LED, LOW);
     }
+    delay(1);
   }
+  
   if (digitalRead(SWITCH) == HIGH) {
     tft.enableDisplay(true);
   }
   else {
     tft.enableDisplay(false);
   }
+  delay(1);
 }
-
 //--------------------------------------------------------------------------------
 //Gemaakt door de groep Luchtkwaliteit
 //Graduaat IoT
