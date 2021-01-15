@@ -11,7 +11,7 @@
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 // DHT pin instellen
-#define DHTPIN 20
+#define DHTPIN 12
 
 // DHT type instellen
 #define DHTTYPE DHT11   // DHT 11 
