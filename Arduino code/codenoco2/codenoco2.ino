@@ -44,7 +44,7 @@ void setup() {
   }*/
   tft.initR(INITR_BLACKTAB);                //initialiseer display
   tft.fillScreen(ST77XX_BLACK);             //maak het scherm zwart
-  tft.setRotation(1);                       // draai het scherm
+  tft.setRotation(3);                       // draai het scherm
   tft.setCursor(0, 0);                      // zet de cursor in het begin
   tft.setTextColor(ST77XX_YELLOW);          //zet de tekstkleur op geel
   tft.setTextSize(2);                     //grootte tekst op 2
