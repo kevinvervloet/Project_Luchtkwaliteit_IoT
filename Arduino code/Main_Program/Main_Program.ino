@@ -17,27 +17,26 @@
 #include <Adafruit_ST7735.h> // Hardware-specific library for ST7735
 #include <Adafruit_ST7789.h> // Hardware-specific library for ST7789
 #include <SPI.h>
-Adafruit_CCS811 ccs;
 
 //---variabelen----------------------------------------------------------------------
-const unsigned long IntervalGas = 10000;    // dit is de interval tijd
+const int IntervalGas = 10000;    // dit is de interval tijd
 unsigned long previousTimeGas = 0;          // Vorige tijd
 #define DHTPIN 12
 #define DHTTYPE DHT11   // DHT 11 
-#define TFT_CS         17    //kies pinnen voor display
+#define TFT_CS         3    //kies pinnen voor display
 #define TFT_RST        16
 #define TFT_DC         1
 #define LED            15
-#define SWITCH         3
 DHT dht = DHT(DHTPIN, DHTTYPE);
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
 
 //---Setup--------------------------------------------------------------------------
+Adafruit_CCS811 ccs;
 void setup() {  
   pinMode(LED, OUTPUT);
-  pinMode(SWITCH, INPUT);
   dht.begin();
-  delay(1);
+  Serial.begin(115200);
+  delay(1);                                 // omdat de watchdog anders reset
   if(!ccs.begin()){
     Serial.println("Failed to start sensor! Please check your wiring.");
     while(1);
@@ -51,37 +50,30 @@ void setup() {
   tft.println("G.R.E.T.A in the house");  //print tekst
   // Wait for the sensor to be ready
   while(!ccs.available());
-  
+   
 }
 //---Loop--------------------------------------------------------------------------
 void loop() {
   
- unsigned long currentTimeGas = millis(); // huidige tijd van millis die constant veranderd
-  if (currentTimeGas - previousTimeGas >= IntervalGas) {
-    float t = dht.readTemperature();      //lees temperatuur en vochtigheid
-    float h = dht.readHumidity();
-    if (ccs.available()) {                //lees de co2 waarden uit
-      if (!ccs.readData()) {            
-        tft.fillScreen(ST77XX_BLACK);             //maak het scherm zwart
-    tft.setCursor(0, 0);                      // zet de cursor in het begin
-    tft.setTextColor(ST77XX_YELLOW);          //zet de tekstkleur op geel
-    tft.setTextSize(1);                     //grootte tekst op 1
-    tft.println("CO2 = " + String(ccs.geteCO2())+" ppm"); //print tekst
-    tft.println("T = " + String(t)+ " C");
-    tft.println("h = " + String(h)+ " %");
-        previousTimeGas = currentTimeGas;     // Update de waarde van millis
+   unsigned long currentTimeGas = millis(); // huidige tijd van millis die constant veranderd
+    if (currentTimeGas - previousTimeGas >= IntervalGas) {
+      float t = dht.readTemperature();      //lees temperatuur en vochtigheid
+      float h = dht.readHumidity();
+      if (ccs.available()) {                //lees de co2 waarden uit
+        if (!ccs.readData()) {            
+          tft.fillScreen(ST77XX_BLACK);             //maak het scherm zwart
+      tft.setCursor(0, 0);                      // zet de cursor in het begin
+      tft.setTextColor(ST77XX_YELLOW);          //zet de tekstkleur op geel
+      tft.setTextSize(2);                     //grootte tekst op 1
+     // tft.println("CO2 = " + String(ccs.geteCO2())+" ppm"); //print tekst
+      tft.println("T = " + String(t)+ " C");
+      tft.println("h = " + String(h)+ " %");
+          previousTimeGas = currentTimeGas;     // Update de waarde van millis
+       }
       }
-
-    }
-    else{
-      
-      while(1);
-    }
-    
-   
+     
     if (ccs.geteCO2() >= 900) {
       digitalWrite(LED, HIGH);
-
     }
     else {
       digitalWrite(LED, LOW);
@@ -89,12 +81,6 @@ void loop() {
     delay(1);
   }
   
-  if (digitalRead(SWITCH) == HIGH) {
-    tft.enableDisplay(true);
-  }
-  else {
-    tft.enableDisplay(false);
-  }
   delay(1);
 }
 //--------------------------------------------------------------------------------
